@@ -3,7 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
-// criar nosso servidor express
+// criar o servidor express
 const app = express()
 
 app.use(cors())
@@ -36,7 +36,7 @@ app.post('/adicionar', function(req, res) {
         })
     }
 
-    res.send('Sucesso.')
+    res.send("Sucesso.")
 })
 
 app.put('/atualizar/:id', function(req, res) {
@@ -76,7 +76,7 @@ app.post('/desconto', function(req, res) {
         return item
     })
   
-    res.send('Desconto de 10% aplicado com sucesso.')
+    res.send("Desconto de 10% aplicado com sucesso.")
 })
 
 // Desafio:
