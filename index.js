@@ -20,16 +20,19 @@ app.get('/', function(req, res) {
 })
 
 app.post('/adicionar', function(req, res) {
-    // trim remove os espaços vazios no ínicio e no final do input, se ao remover sobrar o total de 0 caracteres, faça:
-    if(!req.body.nome || req.body.nome.trim() == 0)
-        return res.send("Preencha o nome.")
+    // trim remove os espaços vazios no ínicio e no final do valor, se ao remover sobrar o total de 0 caracteres, faça:
+    if (!req.body.nome || req.body.nome.trim() == 0)
+        return res.send("O campo nome não pode ficar vazio.")
+    else if (!req.body.preco || req.body.preco.trim() == 0)
+        return res.send("O campo preço não pode ficar vazio.")
     else {
         // push é um método para add itens em um array
         lista.push({
             // length retorna o tamanho de um array
             id: lista.length,
             // req.body retorna todos os itens que tem no body da requisição
-            item: req.body.nome
+            item: req.body.nome,
+            preco: req.body.preco
         })
     }
 
@@ -43,10 +46,13 @@ app.put('/atualizar/:id', function(req, res) {
         return item.id == id
     })
 
-    if(!req.body.nome) {
-        return res.send("Erro.")
-    } else {
-        lista[index].item = req.body.nome;
+    if (!req.body.nome || req.body.nome.trim() == 0)
+        return res.send("O campo nome não pode ficar vazio.")
+    else if (!req.body.preco || req.body.preco.trim() == 0) 
+        return res.send("O campo preço não pode ficar vazio.")
+    else {
+        lista[index].item = req.body.nome
+        lista[index].preco = req.body.preco
         return res.send("Sucesso.")
     }
 })
@@ -61,6 +67,16 @@ app.delete('/remover/:id', function(req, res) {
     lista = novaLista
 
     res.send("Sucesso.")
+})
+
+app.post('/desconto', function(req, res) {
+    novaLista = lista.map((item) => {
+    // aplica 10% de desconto ao preço do item
+        item.preco = item.preco * 0.9
+        return item
+    })
+  
+    res.send('Desconto de 10% aplicado com sucesso.')
 })
 
 // Desafio:
